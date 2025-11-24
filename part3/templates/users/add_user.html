@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Members List</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>All Members</h2>
+        <a href="{{ url_for('add_user') }}" class="btn btn-success">Add New Member</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if members|length == 0 %}
+        <div class="alert alert-info">No members registered yet.</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID (User ID)</th>
+                        <th>First Name</th>
+                        <th>Surname</th>
+                        <th>Dependent Description</th>
+                        <th>House Rules</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in members %}
+                        <tr>
+                            <td><strong>{{ member.member_user_id }}</strong></td>
+                            <td>{{ member.user.given_name }}</td>
+                            <td>{{ member.user.surname }}</td>
+                            <td>{{ member.dependent_description or '—' }}</td>
+                            <td>{{ member.house_rules or '—' }}</td>
+                            <td class="text-center">
+                                <a href="{{ url_for('edit_user', member_user_id=member.member_user_id) }}"
+                                   class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ url_for('delete_user', member_user_id=member.member_user_id) }}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete this member?');">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No members found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

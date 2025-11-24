@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caregiver Platform - Home</title>
+</head>
+<body>
+    <h1>Welcome to Caregiver Platform</h1>
+    <p>Manage caregivers, members, jobs, and appointments</p>
+    
+    <h2>Quick Links:</h2>
+<ul>
+        <li><a href="{{ url_for('list_users') }}">View All Users</a></li>
+
+
+        <li><a href="{{ url_for('list_caregiver') }}">View Caregivers</a></li>
+        <li><a href="{{ url_for('list_members') }}">View Members</a></li>
+
+        <li><a href="{{ url_for('list_jobs') }}">View Jobs</a></li>
+       
+
+        <li><a href="{{ url_for('list_appointments') }}">View Appointments</a></li>
+       
+
+        <li><a href="{{ url_for('list_job_applications') }}">View Job Applications</a></li>
+        
+        <li><a href="{{ url_for('list_addresses') }}">View Addresses</a></li>
+       
+    </ul>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Job Application</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Add Job Application</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="caregiver_user_id" class="form-label">Caregiver</label>
+            <select class="form-select" name="caregiver_user_id" required>
+                {% for caregiver in caregivers %}
+                    <option value="{{ caregiver.caregiver_user_id }}">
+                        {{ caregiver.user.given_name if caregiver.user else '—' }} {{ caregiver.user.surname if caregiver.user else '' }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="job_id" class="form-label">Job</label>
+            <select class="form-select" name="job_id" required>
+                {% for job in jobs %}
+                    <option value="{{ job.job_id }}">{{ job.required_caregiving_type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Application</button>
+        <a href="{{ url_for('list_job_applications') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

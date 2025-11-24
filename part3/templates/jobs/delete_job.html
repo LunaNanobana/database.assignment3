@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Job</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Delete Job</h2>
+    <p>Are you sure you want to delete job ID {{ job.job_id }}?</p>
+    <form method="POST">
+        <input type="submit" value="Yes, Delete" class="btn btn-danger">
+        <a href="{{ url_for('list_jobs') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

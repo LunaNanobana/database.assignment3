@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Job Application</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2>Edit Job Application</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Caregiver</label>
+            <select name="caregiver_user_id" class="form-select" required>
+                {% for caregiver in caregivers %}
+                    <option value="{{ caregiver.caregiver_user_id }}"
+                        {% if application.caregiver_user_id == caregiver.caregiver_user_id %} selected {% endif %}>
+                        {{ caregiver.user.given_name if caregiver.user else 'Unknown' }}
+                        {{ caregiver.user.surname if caregiver.user else '' }}
+                        - {{ caregiver.caregiving_type }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Job</label>
+            <select name="job_id" class="form-select" required>
+                {% for job in jobs %}
+                    <option value="{{ job.job_id }}"
+                        {% if application.job_id == job.job_id %} selected {% endif %}>
+                        {{ job.job_id }} - {{ job.required_caregiving_type }}
+                        ({{ job.member.user.given_name if job.member and job.member.user else 'Unknown' }}
+                         {{ job.member.user.surname if job.member and job.member.user else '' }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Date Applied</label>
+            <input type="date" name="date_applied" value="{{ application.date_applied }}" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Application</button>
+        <a href="{{ url_for('list_job_applications') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
