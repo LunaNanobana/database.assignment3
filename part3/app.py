@@ -4,26 +4,32 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 from flask import flash, render_template, request  # Add request if not already
 from sqlalchemy.exc import IntegrityError
-
+from models import db
 
 from urllib.parse import quote_plus
 
 app = Flask(__name__)
 
-# THIS IS THE ONLY PART YOU NEED TO CHANGE
 if os.environ.get('DATABASE_URL'):
-    # Render provides DATABASE_URL automatically
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+    # Render gives postgres://... → we convert it to postgresql://...
+    database_url = os.environ['DATABASE_URL']
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 else:
-    # Fallback for local development (your old string)
+    # Your local PostgreSQL
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:aiymka23@localhost/assign3'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = os.environ.get('SECRET_KEY') or 'super-secret-dev-key'  # also good practice
+
+# ---------------------- SECRET KEY ----------------------
+app.secret_key = os.environ.get('SECRET_KEY') or 'super-secret-dev-key-12345-change-in-production'
 
 
 
-from models import db
+
+
+
 db.init_app(app)
 
 # db = SQLAlchemy(app)
@@ -420,4 +426,5 @@ def delete_address(address_id):
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
 
