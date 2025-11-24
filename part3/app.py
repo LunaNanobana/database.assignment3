@@ -5,12 +5,23 @@ from datetime import datetime
 from flask import flash, render_template, request  # Add request if not already
 from sqlalchemy.exc import IntegrityError
 
+
+from urllib.parse import quote_plus
+
 app = Flask(__name__)
-app.secret_key = '71777'  # Replace with something unique, e.g., a random string like 'supersecret123'
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'postgresql://postgres:aiymka23@localhost/assign3?client_encoding=utf8'
-)
+
+# THIS IS THE ONLY PART YOU NEED TO CHANGE
+if os.environ.get('DATABASE_URL'):
+    # Render provides DATABASE_URL automatically
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+else:
+    # Fallback for local development (your old string)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:aiymka23@localhost/assign3'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = os.environ.get('SECRET_KEY') or 'super-secret-dev-key'  # also good practice
+
+
 
 from models import db
 db.init_app(app)
@@ -409,3 +420,4 @@ def delete_address(address_id):
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
