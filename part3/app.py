@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 # from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -406,12 +407,5 @@ def delete_address(address_id):
     return render_template('address/delete_address.html', addr=addr)
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
