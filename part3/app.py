@@ -9,7 +9,7 @@ app.secret_key = '71777'  # change this in production!
 
 # ==================== SUPABASE CONNECTION ====================
 # This is YOUR live database with all the data already inserted
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:JKcXsZ8ymspK9NjF@db.saqqrgturxllmvymvmse.supabase.co:5432/postgres"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres.saqqrgturxllmvymvmse:JKcXsZ8ymspK9NjF@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'connect_args': {'sslmode': 'require'}
 }
+'pool_pre_ping': True
 
 db.init_app(app)
 
@@ -415,6 +416,7 @@ if __name__ == '__main__':
 
     port = int(os.getenv('PORT', 10000))  # Render provides PORT; fallback for local
     app.run(host='0.0.0.0', port=port, debug=True)
+
 
 
 
