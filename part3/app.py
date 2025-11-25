@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
+import os
 from sqlalchemy.exc import IntegrityError
 from models import db, UserAccount, Caregiver, Member, Job, Appointment, JobApplication, Address
 
@@ -411,7 +412,10 @@ def delete_address(address_id):
     return render_template('address/delete_address.html', addr=addr)
 
 if __name__ == '__main__':
-   app.run(debug=True)
+
+    port = int(os.getenv('PORT', 10000))  # Render provides PORT; fallback for local
+    app.run(host='0.0.0.0', port=port, debug=True)
+
 
 
 
