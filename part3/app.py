@@ -276,7 +276,7 @@ def delete_job(job_id):
 @app.route('/appointments')
 def list_appointments():
     appointments = Appointment.query.all()
-    return render_template('appointments/list_appoitnments.html', appointments=appointments)
+    return render_template('Appointments/list_appoitnments.html', appointments=appointments)
 
 @app.route('/appointments/add', methods=['GET', 'POST'])
 def add_appointment():
@@ -294,7 +294,7 @@ def add_appointment():
         db.session.add(new_appointment)
         db.session.commit()
         return redirect(url_for('list_appointments'))
-    return render_template('appointments/add_appointment.html', caregivers=caregivers, members=members)
+    return render_template('Appointments/add_appointment.html', caregivers=caregivers, members=members)
 
 @app.route('/appointments/edit/<int:appointment_id>', methods=['GET', 'POST'])
 def edit_appointment(appointment_id):
@@ -310,7 +310,7 @@ def edit_appointment(appointment_id):
         appointment.status = request.form['status']
         db.session.commit()
         return redirect(url_for('list_appointments'))
-    return render_template('appointments/edit_appointment.html', appointment=appointment, caregivers=caregivers, members=members)
+    return render_template('Appointments/edit_appointment.html', appointment=appointment, caregivers=caregivers, members=members)
 
 @app.route('/appointments/delete/<int:appointment_id>')
 def delete_appointment(appointment_id):
@@ -324,7 +324,7 @@ def delete_appointment(appointment_id):
 @app.route('/job_applications')
 def list_job_applications():
     applications = JobApplication.query.all()
-    return render_template('jobapplications/list_job_applications.html', applications=applications)
+    return render_template('JobApplications/list_job_applications.html', applications=applications)
 
 @app.route('/job_applications/add', methods=['GET', 'POST'])
 def add_job_application():
@@ -339,7 +339,7 @@ def add_job_application():
         db.session.add(new_application)
         db.session.commit()
         return redirect(url_for('list_job_applications'))
-    return render_template('jobapplications/add_job_application.html', caregivers=caregivers, jobs=jobs)
+    return render_template('JobApplications/add_job_application.html', caregivers=caregivers, jobs=jobs)
 
 @app.route('/job_applications/edit/<int:application_id>', methods=['GET', 'POST'])
 def edit_job_application(application_id):
@@ -352,7 +352,7 @@ def edit_job_application(application_id):
         application.date_applied = datetime.strptime(request.form['date_applied'], '%Y-%m-%d').date()
         db.session.commit()
         return redirect(url_for('list_job_applications'))
-    return render_template('jobapplications/edit_job_application.html', application=application, caregivers=caregivers, jobs=jobs)
+    return render_template('JobApplications/edit_job_application.html', application=application, caregivers=caregivers, jobs=jobs)
 
 @app.route('/job_applications/delete/<int:application_id>')
 def delete_job_application(application_id):
@@ -370,7 +370,7 @@ from models import db, Address, Member  # make sure Address and Member are impor
 @app.route('/addresses')
 def list_addresses():
     addresses = Address.query.all()  # variable name is plural
-    return render_template('address/list_address.html', addresses=addresses)
+    return render_template('Address/list_address.html', addresses=addresses)
 
 # Add a new address
 @app.route('/addresses/add', methods=['GET', 'POST'])
@@ -386,7 +386,7 @@ def add_address():
         db.session.add(new_addr)
         db.session.commit()
         return redirect(url_for('list_addresses'))  # use plural
-    return render_template('address/add_address.html', members=members)
+    return render_template('Address/add_address.html', members=members)
 
 # Edit an existing address
 @app.route('/addresses/edit/<int:address_id>', methods=['GET', 'POST'])
@@ -400,7 +400,7 @@ def edit_address(address_id):
         addr.town = request.form['town']
         db.session.commit()
         return redirect(url_for('list_addresses'))  # use plural
-    return render_template('address/edit_address.html', addr=addr, members=members)
+    return render_template('Address/edit_address.html', addr=addr, members=members)
 
 # Delete an address
 @app.route('/addresses/delete/<int:address_id>', methods=['GET', 'POST'])
@@ -410,12 +410,13 @@ def delete_address(address_id):
         db.session.delete(addr)
         db.session.commit()
         return redirect(url_for('list_addresses'))  # use plural
-    return render_template('address/delete_address.html', addr=addr)
+    return render_template('Address/delete_address.html', addr=addr)
 
 if __name__ == '__main__':
 
     port = int(os.getenv('PORT', 10000))  # Render provides PORT; fallback for local
     app.run(host='0.0.0.0', port=port, debug=True)
+
 
 
 
