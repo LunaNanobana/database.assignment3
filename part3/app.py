@@ -1,17 +1,21 @@
-import os
-from flask import Flask, render_template, request, redirect, url_for
-# from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
-from flask import flash, render_template, request  # Add request if not already
 from sqlalchemy.exc import IntegrityError
-from models import db
+from models import db, UserAccount, Caregiver, Member, Job, Appointment, JobApplication, Address
 
 app = Flask(__name__)
-app.secret_key = '71777'  # Replace with something unique, e.g., a random string like 'supersecret123'
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'postgresql://database1_ki6x_user:khYvrhwabScPRcpKFRCxqVoR9lopGQwC@dpg-d4ic9015pdvs739o2png-a/database1_ki6x'
-)
+app.secret_key = '71777'  # change this in production!
+
+# ==================== SUPABASE CONNECTION ====================
+# This is YOUR live database with all the data already inserted
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Pro100@iymka@db.saqqrgturxllmvymvmse.supabase.co:5432/postgres"
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Required for Supabase (SSL)
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'connect_args': {'sslmode': 'require'}
+}
 
 db.init_app(app)
 
@@ -407,8 +411,8 @@ def delete_address(address_id):
     return render_template('address/delete_address.html', addr=addr)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+   app.run(debug=True)
+
 
 
 
